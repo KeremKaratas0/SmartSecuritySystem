@@ -16,7 +16,6 @@ def cam_work(idx,in_queue):
         exit()
     batch=[]
     while True:
-        time.sleep(1)
         ret, frame = cap.read()
         if not ret:
             break
