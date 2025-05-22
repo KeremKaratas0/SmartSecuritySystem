@@ -445,16 +445,7 @@ class LastPage(ttk.Frame):
                 if not images.empty():
                         conf_path,conf_name=images.get()
                         sftp.put(conf_path, f'/home/admin/Pictures/{conf_name}')
-                        self.controller.dt_and_s.pop_one()
-                        time.sleep(5)
-                        stdin,stdout,stderr=ssh.exec_command('cat alertscript.sh')
-                        output=stdout.read().decode().replace('macaddress',self.controller.selected_mac).replace('obexchannel',self.controller.obex_channel).replace('DATETIME',datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-                        output_escaped = output.replace('"', '\\"').replace('`', '\\`').replace('$', '\\$')
-                        remote_write_command = f'echo "{output_escaped}" > temp_alert.sh && chmod +x temp_alert.sh'
-                        stdin, stdout, stderr=ssh.exec_command(remote_write_command)
-                        stdout.channel.recv_exit_status()
-                        stdin, stdout, stderr=ssh.exec_command('./temp_alert.sh')
-                        stdout.channel.recv_exit_status()
+                        self.controller.dt_and_s.pop_one()         
                         time.sleep(3)
            sftp.close()
            ssh.close()
